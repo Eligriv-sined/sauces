@@ -1,5 +1,5 @@
 
-const sauces = require('../models/stuff');
+const sauces = require('../models/sauces');
 
 
 exports.createThing = (req, res, next) => {
