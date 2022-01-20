@@ -1,10 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
 const mongoose = require("mongoose");
-
 const stuffRoutes = require('./routes/sauces');
 const userRoutes = require ('./routes/user');
+const path = require('path');
+
+
 mongoose
   .connect(
     "mongodb+srv://virgile:852456@cluster0.urhrf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -12,6 +13,10 @@ mongoose
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
+
+const app = express();
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(express.json());
 
