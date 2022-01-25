@@ -88,7 +88,7 @@ exports.likeSauce = (req, res, next) => {
           Sauces.updateOne(
             { _id: saucesId },
             {
-              $inc: { likes: 1 },
+              $inc: { likes: +1 },
               $push: { usersLiked: idUsers },
             }
           )
@@ -106,9 +106,9 @@ exports.likeSauce = (req, res, next) => {
           Sauces.updateOne(
             { _id: saucesId },
             {
-              $inc: { dislikes: 1 },
+              $inc: { dislikes: +1 },
               $push: { usersDisliked: idUsers },
-            } 
+            } .s
           )
             .then(() =>
               res
@@ -121,7 +121,7 @@ exports.likeSauce = (req, res, next) => {
      
       .catch((error) => res.status(400).json({ error }));
   }
-  if (like !== 0) {
+  if (like === 1 || like === -1  ) {
     Sauces.findOne({ _id: saucesId })
       .then((Sauces) => {
         if (Sauces.usersLiked.includes(idUsers)) {
