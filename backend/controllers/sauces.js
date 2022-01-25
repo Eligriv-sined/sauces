@@ -99,9 +99,7 @@ exports.likeSauce = (req, res, next) => {
         }
       })
       .catch((error) => res.status(400).json({ error }));
-  }
-
- else if (like === -1) {
+  } else if (like === -1) {
     Sauces.findOne({ _id: saucesId })
       .then((Sauces) => {
         if (!Sauces.usersDisliked.includes(idUsers)) {
@@ -110,7 +108,7 @@ exports.likeSauce = (req, res, next) => {
             {
               $inc: { dislikes: 1 },
               $push: { usersDisliked: idUsers },
-            }
+            } 
           )
             .then(() =>
               res
@@ -120,10 +118,10 @@ exports.likeSauce = (req, res, next) => {
             .catch((error) => res.status(400).json({ error }));
         }
       })
+     
       .catch((error) => res.status(400).json({ error }));
   }
-
-  if (like === 0) {
+  if (like !== 0) {
     Sauces.findOne({ _id: saucesId })
       .then((Sauces) => {
         if (Sauces.usersLiked.includes(idUsers)) {
@@ -133,14 +131,13 @@ exports.likeSauce = (req, res, next) => {
               $inc: { likes: -1 },
               $pull: { usersLiked: idUsers },
             }
-          )
-            .then(() =>
-              res.status(201).json({ message: "Votre Like a etait retirer " })
-            )
-            .catch((error) => res.status(400).json({ error }));
-        }
-
-        if (Sauces.usersDisliked.includes(idUsers)) {
+          ).then(() => {
+            res
+              .status(201)
+              .json({ message: "Like retirer" })
+              .catch((error) => res.status(400).json({ error }));
+          });
+        } else if (Sauces.usersDisliked.includes(idUsers)) {
           Sauces.updateOne(
             { _id: saucesId },
             {
@@ -148,11 +145,7 @@ exports.likeSauce = (req, res, next) => {
               $pull: { usersDisliked: idUsers },
             }
           )
-            .then(() =>
-              res
-                .status(201)
-                .json({ message: "Votre dislike a etait retirer" })
-            )
+            .then(() => res.status(201).json({ message: "dislike retirer" }))
             .catch((error) => res.status(400).json({ error }));
         }
       })
