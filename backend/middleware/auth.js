@@ -12,6 +12,6 @@ module.exports = (req, res, next) => {// Fonction autorisation
       next();
     }
   } catch (error) {
-    res.status(401).json({ error: error | "requete non authentifier" });
+    res.status(401).json({ error: error | "requete non authentifiée" });
   }
 };
